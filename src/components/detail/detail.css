@@ -1,8 +1,4 @@
 .detail
 {
     flex:1;
-    border-width: 2px;         /* Specify units */
-    border-color: red;         /* Correct */
-    border-style: solid;       /* Add border style */
-    border: 2px solid red;   
 }

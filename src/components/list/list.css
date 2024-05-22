@@ -1,8 +1,6 @@
 .list {
-    flex: 1;
-    border-width: 2px;         /* Specify units */
-    border-color: red;         /* Correct */
-    border-style: solid;       /* Add border style */
-    border: 2px solid red;     /* Simplify with border shorthand */
-  }
+    flex: 1;  
+    display: flex;  /* Simplify with border shorthand */
+    flex-direction: column;
+}
   
