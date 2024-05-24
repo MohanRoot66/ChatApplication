@@ -1,17 +1,14 @@
 import React, { useState } from 'react'
 import "./chatList.css"
+import AddUser from './addUser/addUser'
 
 export default function ChatList() {
 
-  const [image,setImage] = useState('./plus.png')
+  const [adduser,setAdduser] = useState(false)
 
   function changeImage() 
   {
-    if(image.startsWith("./p")){
-      setImage("./minus.png")
-      return
-    }
-    setImage("./plus.png")
+    setAdduser(!adduser)
   }
 
   return (
@@ -21,7 +18,7 @@ export default function ChatList() {
             <img src='/search.png' alt='' />
             <input type='text' placeholder='Search' />
         </div>
-        <img src={image} alt='' className='add' onClick={changeImage}/>
+        <img src={adduser ? './minus.png' : "./plus.png"} alt='' className='add' onClick={changeImage}/>
       </div>
       <div className="item">
         <img src="./avatar.png" alt="" />
@@ -51,6 +48,7 @@ export default function ChatList() {
           <p>Hello Jhon</p>
         </div>
       </div>
+      {adduser && <AddUser/> }
     </div>
   )
 }
