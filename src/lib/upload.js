@@ -2,7 +2,7 @@ import { storage } from "./firebase";
 import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 
 const upload = async (file) => {
-    console.log(file);
+
     const date = new Date();
     const formattedDate = date.toISOString(); // Format date to ISO string
     const storageRef = ref(storage, `images/${formattedDate}-${file.name}`);
