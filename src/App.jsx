@@ -15,7 +15,7 @@ const App = () => {
 
   const {isLoading,currentUser} = useSelector((state) => state.user);
 
-  console.log(currentUser)
+  const {chatId} = useSelector(state=>state.chat);
 
   useEffect(()=>{
     const unsub = onAuthStateChanged(auth,(user)=>
@@ -34,8 +34,8 @@ const App = () => {
     <div className='container'>
       {
         currentUser ? (<><List />
-        <Chat />
-        <Detail /></>) : (<Login />)
+        {chatId && <Chat />}
+        {chatId && <Detail />}</>) : (<Login />)
       }
       <Notification />
     </div>

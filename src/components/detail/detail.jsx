@@ -1,13 +1,42 @@
 import React from 'react'
 import "./detail.css"
-import { auth } from '../../lib/firebase'
+import { auth, db } from '../../lib/firebase'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeBlock } from '../../lib/slices/chatSlice'
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
 
 export default function Detail() {
+
+  const {chatId,user,isCurrentUserBlocked,isReceiverBlocked} = useSelector(state=>state.chat)
+  const dispatch = useDispatch();
+  const {currentUser} = useSelector(state=>state.user);
+
+  const handleBlock = async() =>
+  {
+      if(!user) return
+
+      const userDocRef = doc(db,"users",currentUser.id);
+
+      try{
+
+        await updateDoc(userDocRef,{
+          blocked:isReceiverBlocked ? arrayRemove(user.id) : 
+          arrayUnion(user.id)
+        })
+
+        dispatch(changeBlock())
+
+      }
+      catch{
+        console.log(err)
+      }
+  }
+
   return (
     <div className='detail'>
       <div className="user">
         <img src="./avatar.png" alt="" />
-        <h2>Jane Doe</h2>
+        <h2>{user?.username}</h2>
         <p>Yoo this is amazing</p>
       </div>
       <div className="info">
@@ -58,7 +87,7 @@ export default function Detail() {
             <img src="./arrowUp.png" alt="" />
           </div>
         </div>
-        <button>Block User</button>
+        <button onClick={handleBlock}>{isCurrentUserBlocked ? "You are Blocked" : isReceiverBlocked ? "User Blocked" : "Block User"}</button>
         <button className='logout' onClick={()=>auth.signOut()}>Logout</button>
       </div>
     </div>

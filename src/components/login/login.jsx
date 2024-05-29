@@ -15,6 +15,8 @@ export default function Login() {
 
     const [loading,setLoading] = useState(false);
 
+    const [login,setLogging] = useState(false);
+
     const handleAvatar = (e) =>{
 
         if(e.target.files[0]){
@@ -50,7 +52,7 @@ export default function Login() {
     const handleRegister = async (e) =>{
         e.preventDefault()
 
-        setLoading(true)
+        setLogging(true)
 
         const formData =  new FormData(e.target);
 
@@ -84,7 +86,7 @@ export default function Login() {
             toast.error(error.code)
         }
         finally{
-            setLoading(false)
+            setLogging(false)
         }
     }
 
@@ -110,7 +112,7 @@ export default function Login() {
                 <input type='text' placeholder='Username' name='username' />
                 <input type='text' placeholder='Email' name='email' />
                 <input className='inp' type='password' placeholder='Password' name='password' />
-                <button disabled={loading}>{loading ? "Loading" : "Sign Up"}</button>
+                <button disabled={login}>{login ? "Loading" : "Sign Up"}</button>
             </form>
         </div>
     </div>
