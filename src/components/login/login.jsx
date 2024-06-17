@@ -36,6 +36,8 @@ export default function Login() {
 
         const {email,password} = Object.fromEntries(formData);
 
+        console.log(email,password);
+
         try{
 
            await signInWithEmailAndPassword(auth,email,password);
@@ -58,18 +60,33 @@ export default function Login() {
 
         const {username,email,password} = Object.fromEntries(formData);
 
+        if (!username || !email || !password)
+            return toast.warn("Please enter inputs!");
+          if (!avatar.file) return toast.warn("Please upload an avatar!");
+      
+          // VALIDATE UNIQUE USERNAME
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("username", "==", username));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            return toast.warn("Select another username");
+          }
+      
+
         try{
             
             const response = await createUserWithEmailAndPassword(auth,email,password)
 
+
             const imgUrl =await upload(avatar.file)
 
-            console.log("=>",imgUrl)
-            // Add a new document in collection "cities"
+            
+
+            // Add a new document in collection "users"
             await setDoc(doc(db, "users", response.user.uid), {
                 username,
                 email,
-                imgUrl,
+                ...(imgUrl && {imgUrl}),
                 id:response.user.uid,
                 blocked:[]
             });
